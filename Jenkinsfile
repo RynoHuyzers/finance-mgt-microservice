@@ -1,5 +1,9 @@
 pipeline {
 
+    agent {
+        label 'master'
+    }
+
     environment {
         AWS_DEFAULT_REGION="${params.AWSRegion}"
     }
