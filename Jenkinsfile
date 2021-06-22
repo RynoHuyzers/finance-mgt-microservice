@@ -4,8 +4,12 @@ pipeline {
         label 'master'
     }
 
-    parameters: {
-
+    parameters {
+        string(name: 'AppName', defaultValue: 'DriverManagement')
+        string(name: 'ProjectName', defaultValue: 'DriverManagement-Microservice')
+        string(name: 'AWSRegion', defaultValue: 'eu-west-1', description: 'AWS Region')
+        string(name: 'DevAWSAccountNumber', defaultValue: '327579255305', description: 'AWS Account Number - Development')
+        string(name: 'DevAWSCredentialsId', defaultValue: 'JenkinsAWS-USER', description: 'AWS Credentials added to Jenkins')
     }
 
     options {
