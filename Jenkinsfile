@@ -4,6 +4,10 @@ pipeline {
         label 'master'
     }
 
+    parameters: {
+
+    }
+
     options {
         timeout(time: 30, unit: 'MINUTES')
         buildDiscarder(logRotator(numToKeepStr: '4', artifactNumToKeepStr: '1'))
