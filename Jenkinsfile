@@ -4,11 +4,7 @@ pipeline {
         label 'master'
     }
 
-    environment {
-        AWS_DEFAULT_REGION="${params.AWSRegion}"
-    }
-
-    parameters: {
+    parameters:{
         string(name: 'AppName', defaultValue: 'DriverManagement')
         string(name: 'ProjectName', defaultValue: 'DriverManagement-Microservice')
         string(name: 'AWSRegion', defaultValue: 'eu-west-1', description: 'AWS Region')
@@ -22,7 +18,7 @@ pipeline {
     }
 
     stages {
-        stage ('Env Setup') {
+        stage('Env Setup') {
             script {
                 switch(env.Branch_Name){
                     case 'development':
