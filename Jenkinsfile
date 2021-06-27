@@ -108,5 +108,38 @@ pipeline {
                 }
             }
         }
+        stage('Package: RestAPI') {
+            // perform this stage only when a change has been detected in the Jenksinfile, or anything related to the code
+            when {
+                anyOf {
+                    changeset pattern: "Jenkinsfile", caseSensitive: true;
+                    changeset pattern: "rest-api/tsconfig.build.json", caseSensitive: true;
+                    changeset pattern: "rest-api/src/**/*.ts", caseSensitive: true;
+                    changeset pattern: "cdk/src/rest-api/**/*.ts", caseSensitive: true;
+                    changeset pattern: "cdk/src/rest-api/**/*.yaml", caseSensitive: true;
+                    equals expected: "true", actual: params.ForceFullBuild;
+                }
+            }
+            steps {
+                nodejs(nodeJSInstallationName: 'NodeJS 16.4') {
+                    sh """
+
+                        # Deployable Zip
+                        npm prune --production
+                        npx mkdirp deploy/rest-api
+
+                        cd build
+
+                        ## zip all build artifact from rest-api:build
+                        zip -r9 ../deploy/rest-api/finance-management-rest-lambda.zip *
+                        cd ..
+                        ## zip node modules into zip file
+                        zip -r9 deploy/rest-api/finance-management-rest-lambda.zip node_modules/
+                        rm -rf node_modules
+
+                    """
+                }
+            }
+        }
     }
 }
