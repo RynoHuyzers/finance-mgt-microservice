@@ -21,11 +21,7 @@ export class FinanceManagementProxyStack extends Stack {
         const financeLambdaRole = new Role(this, 'FinanceLambdaRole', {
             roleName: 'FinanceLambdaRole',
             assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
-            managedPolicies: [
-                ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'),
-                ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMFullAccess'),
-                ManagedPolicy.fromAwsManagedPolicyName('AmazonS3FullAccess')
-            ],
+
         });
 
         // Rest Proxy Function
