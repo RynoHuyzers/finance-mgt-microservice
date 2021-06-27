@@ -84,5 +84,29 @@ pipeline {
                 }
             }
         }
+
+        stage('Build: RestAPI Proxy lambda') {
+            // perform this stage only when a change has been detected in the Jenksinfile, or anything related to the code
+            when {
+                anyOf {
+                    changeset pattern: "Jenkinsfile", caseSensitive: true;
+                    changeset pattern: "tsconfig.build.json", caseSensitive: true;
+                    changeset pattern: "rest-api/src/**/*.ts", caseSensitive: true;
+                    changeset pattern: "cdk/src/rest-api/**/*.ts", caseSensitive: true;
+                    changeset pattern: "cdk/src/rest-api/**/*.yaml", caseSensitive: true;
+                    changeset pattern: "common-lambda-code/**/*.ts", caseSensitive: true;
+                    changeset pattern: "nest-layer/package.json", caseSensitive: true;
+                    equals expected: "true", actual: params.ForceFullBuild;
+                }
+            }
+            steps {
+                nodejs(nodeJSInstallationName: 'NodeJS 16.4') {
+                    sh """
+                        ## cd into correct directory, and nest build lambda code
+                        npm run rest-api:build
+                    """
+                }
+            }
+        }
     }
 }

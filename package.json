@@ -10,6 +10,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "nest-layer:build": "cd nest-layer && npm install && mkdir -p nodejs && cp -r node_modules nodejs/ && zip -r ../deploy/nest-layer.zip nodejs && rimraf nodejs",
+    "rest-api:build": "cd rest-api && nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start":"npx cross-env AWS_SDK_LOAD_CONFIG=true npx nest start",
     "start:dev": "nest start --watch",
