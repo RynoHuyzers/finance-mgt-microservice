@@ -156,7 +156,7 @@ pipeline {
                 script{
                     sh """
                         echo "Install CDK Dependencies"
-                        npm install --only=dev
+                        npm install
                     """
                 }
             }
