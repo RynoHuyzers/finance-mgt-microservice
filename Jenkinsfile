@@ -48,5 +48,18 @@ pipeline {
                 }
             }
         }
+/******* TEST AND CONVERAGE STAGE *******/
+
+        stage('Testing') {
+            // always perform this stage
+            steps {
+                nodejs(nodeJSInstallationName: 'NodeJS 16.4') {
+                    sh """
+                    npx jest --version
+                    npm run test:cov
+                    """
+                }
+            }
+        }
     }
 }
