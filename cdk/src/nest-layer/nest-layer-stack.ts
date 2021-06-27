@@ -22,7 +22,7 @@ export class NestLayerStack extends Stack {
     new StringParameter(
       this, 
       'NestLayerArnParameter', {
-        parameterName: '/ClientManagement/RestApi/NestJsLayer/Arn',
+        parameterName: '/FinanceManagement/RestApi/NestJsLayer/Arn',
         stringValue: nestjsLayer.layerVersionArn,
       }
     )
