@@ -5,6 +5,7 @@ pipeline {
     }
 
     parameters {
+        string(name: 'ForceFullBuild', defaultValue: 'false')
         string(name: 'AppName', defaultValue: 'DriverManagement')
         string(name: 'ProjectName', defaultValue: 'DriverManagement-Microservice')
         string(name: 'AWSRegion', defaultValue: 'eu-west-1', description: 'AWS Region')
