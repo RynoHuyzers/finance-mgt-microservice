@@ -141,5 +141,57 @@ pipeline {
                 }
             }
         }
+        stage('Prepare Deploy Dependencies') {
+            // Basically always perform this step if there was change to any code or dependnecy
+            when {
+                anyOf {
+                    changeset pattern: "Jenkinsfile", caseSensitive: true;
+                    changeset pattern: "nest-layer/package.json", caseSensitive: true;
+                    changeset pattern: "cdk/**/*.*", caseSensitive: true;
+                    changeset pattern: "rest-api/**/*.ts", caseSensitive: true;
+                    equals expected: "true", actual: params.ForceFullBuild;
+                }
+            }
+            steps {
+                script{
+                    sh """
+                        echo "Install CDK Dependencies"
+                        npm install --only=dev
+                    """
+                }
+            }
+        }
+        stage('Deploy Nest Layer') {
+            // perform this stage only for dev, QA or Prod, when there are changes to the Jenkinsfile, or anything related to dependencies
+            when {
+                allOf {
+                    not { environment name: 'DEPLOYMENT_ENVIRONMENT', value: 'no_deploy'};
+                    anyOf {
+                        changeset pattern: "Jenkinsfile", caseSensitive: true;
+                        changeset pattern: "nest-layer/package.json", caseSensitive: true;
+                        changeset pattern: "cdk/src/nest-layer/**/*.ts", caseSensitive: true;
+                        equals expected: "true", actual: params.ForceFullBuild;
+                    }
+                }
+            }
+            steps {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+                                    credentialsId: "${env.AWSCredentialId}",
+                                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                    sh """
+                        echo "Deploy Nest Layer"
+                        ## cd into cdk directory and compiles cdk
+                        npm run cdk:build:nest-layer
+
+                        cd cdk/src/nest-layer
+                        npx rimraf cdk.out
+
+                        ## Deploys zip file created during cdk compile
+                        npm run cdk:deploy:nest-layer -- --require-approval=never
+                    """
+                }
+            }
+        }
     }
 }
