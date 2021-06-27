@@ -30,6 +30,7 @@ export class FinanceManagementProxyStack extends Stack {
         });
 
         // Rest Proxy Function
+        // @ts-ignore
         const restProxyFnPath: string = `${__dirname}/../../../deploy/rest-api/finance-management-rest-lambda.zip`;
         const restProxyLambda: Function = new Function(this, 'FinanceManagement_RestAPI_ProxyLambda', {
             functionName: 'FinanceManagement-RestProxy',
