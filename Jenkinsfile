@@ -128,7 +128,7 @@ pipeline {
                         npm prune --production
                         npx mkdirp deploy/rest-api
 
-                        cd ../build
+                        cd build
 
                         ## zip all build artifact from rest-api:build
                         zip -r9 ../deploy/rest-api/finance-management-rest-lambda.zip *
