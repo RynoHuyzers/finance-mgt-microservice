@@ -6,11 +6,11 @@ pipeline {
 
     parameters {
         string(name: 'ForceFullBuild', defaultValue: 'false')
-        string(name: 'AppName', defaultValue: 'DriverManagement')
-        string(name: 'ProjectName', defaultValue: 'DriverManagement-Microservice')
-        string(name: 'AWSRegion', defaultValue: 'eu-west-1', description: 'AWS Region')
+        string(name: 'AppName', defaultValue: 'FinanceManagement')
+        string(name: 'ProjectName', defaultValue: 'FinanceManagement-Microservice')
+        string(name: 'AWSRegion', defaultValue: 'eu-west-2', description: 'AWS Region')
         string(name: 'DevAWSAccountNumber', defaultValue: '327579255305', description: 'AWS Account Number - Development')
-        string(name: 'DevAWSCredentialsId', defaultValue: 'JenkinsAWS-USER', description: 'AWS Credentials added to Jenkins')
+        string(name: 'DevAWSCredentialsId', defaultValue: 'Jenkins', description: 'AWS Credentials added to Jenkins')
     }
 
     options {
