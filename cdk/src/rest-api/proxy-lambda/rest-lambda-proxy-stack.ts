@@ -11,7 +11,7 @@ export class FinanceManagementProxyStack extends Stack {
         const layerArn: IStringParameter = StringParameter.fromStringParameterName(
             this,
             'NestJSRestLayerARN',
-            '/AdminPortal/RestApi/NestJsLayer/Arn',
+            '/FinanceManagement/RestApi/NestJsLayer/Arn',
         );
         const nestjsLayer: ILayerVersion = LayerVersion.fromLayerVersionAttributes(this, 'NestJSRestLayer', {
             layerVersionArn: layerArn.stringValue,
@@ -30,7 +30,7 @@ export class FinanceManagementProxyStack extends Stack {
         });
 
         // Rest Proxy Function
-        const restProxyFnPath: string = `${__dirname}/../../../../deploy/rest-api/finance-management-rest-lambda.zip`;
+        const restProxyFnPath: string = `${__dirname}/../../../deploy/rest-api/finance-management-rest-lambda.zip`;
         const restProxyLambda: Function = new Function(this, 'FinanceManagement_RestAPI_ProxyLambda', {
             functionName: 'FinanceManagement-RestProxy',
             code: new AssetCode(restProxyFnPath),
