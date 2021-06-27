@@ -193,5 +193,37 @@ pipeline {
                 }
             }
         }
+        stage('Deploy REST API Proxy Lambda') {
+            // perform this stage only for dev, QA or Prod, when there are changes to the Jenkinsfile, or anything related to lambda code or cdk
+            when {
+                allOf {
+                    not { environment name: 'DEPLOYMENT_ENVIRONMENT', value: 'no_deploy'};
+                    anyOf {
+                        changeset pattern: "Jenkinsfile", caseSensitive: true;
+                        changeset pattern: "rest-api/src/**/*.ts", caseSensitive: true;
+                        changeset pattern: "cdk/src/rest-api/proxy-lambda/**/*.ts", caseSensitive: true;
+                        equals expected: "true", actual: params.ForceFullBuild;
+                    }
+                }
+            }
+            steps {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+                                    credentialsId: "${env.AWSCredentialId}",
+                                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                    sh """
+                        echo "Deploy REST API Proxy Lambda"
+                        ## cd into cdk directory and compiles cdk
+                        npm run cdk:build:rest-api-proxy
+
+                        cd cdk/src/rest-api/proxy-lambda
+                        npx rimraf cdk.out
+
+                        ## Deploys zip file created during cdk compile
+                        npm run cdk:deploy:rest-api-proxy -- --require-approval=never
+                    """
+                }
+            }
+        }
     }
 }
