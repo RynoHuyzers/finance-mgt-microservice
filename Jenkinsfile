@@ -33,6 +33,7 @@ pipeline {
                     env.AWS_DEFAULT_REGION = "${params.AWSRegion}";
 
                     sh """
+
                         aws --version
                         printenv
                     """
