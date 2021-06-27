@@ -61,5 +61,27 @@ pipeline {
                 }
             }
         }
+/******* BUILD STAGES *******/
+
+
+        stage('Build NestJS Lambda Layer') {
+            // perform this stage only when a change has been detected in the Jenksinfile, or anything related to layer dependencies
+            when {
+                anyOf {
+                    changeset pattern: "Jenkinsfile", caseSensitive: true;
+                    changeset pattern: "nest-layer/package.json", caseSensitive: true;
+                    changeset pattern: "cdk/src/nest-layer/**/*.ts", caseSensitive: true;
+                    equals expected: "true", actual: params.ForceFullBuild;
+                }
+            }
+            steps {
+                nodejs(nodeJSInstallationName: 'NodeJS 16.4') {
+                    sh """
+                        ## downloads all dependnecies, creates a directory called nodejs, copies dependencies into it, zips the directory.
+                        npm run nest-layer:build
+                    """
+                }
+            }
+        }
     }
 }
