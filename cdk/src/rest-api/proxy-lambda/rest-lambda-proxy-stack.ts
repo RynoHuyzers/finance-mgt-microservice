@@ -22,7 +22,7 @@ export class FinanceManagementProxyStack extends Stack {
             roleName: 'FinanceLambdaRole',
             assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
             managedPolicies: [
-                ManagedPolicy.fromAwsManagedPolicyName('AWSLambdaFullAccess'),
+                ManagedPolicy.fromAwsManagedPolicyName('AWSLambda_FullAccess'),
                 ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'),
                 ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMFullAccess'),
                 ManagedPolicy.fromAwsManagedPolicyName('AmazonS3FullAccess')
