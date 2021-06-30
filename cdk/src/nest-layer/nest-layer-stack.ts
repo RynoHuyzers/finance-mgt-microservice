@@ -8,7 +8,6 @@ export class NestLayerStack extends Stack {
     super(app, id, props);
 
     // NestJS Rest API Layer
-    // @ts-ignore
     const nestjsLayerPath: string = `${__dirname}/../../../deploy/nest-layer.zip`;
     const nestjsLayer: LayerVersion = new LayerVersion(
       this, 
