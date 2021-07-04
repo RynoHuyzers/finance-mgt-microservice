@@ -54,7 +54,7 @@ pipeline {
         stage('Testing') {
             // always perform this stage
             steps {
-                nodejs(nodeJSInstallationName: 'NodeJS 16.4') {
+                nodejs(nodeJSInstallationName: 'NodeJS 14.17.1') {
                     sh """
                     npx jest --version
                     npm run test:cov
@@ -76,7 +76,7 @@ pipeline {
                 }
             }
             steps {
-                nodejs(nodeJSInstallationName: 'NodeJS 16.4') {
+                nodejs(nodeJSInstallationName: 'NodeJS 14.17.1') {
                     sh """
                         ## downloads all dependnecies, creates a directory called nodejs, copies dependencies into it, zips the directory.
                         npm run nest-layer:build
@@ -100,7 +100,7 @@ pipeline {
                 }
             }
             steps {
-                nodejs(nodeJSInstallationName: 'NodeJS 16.4') {
+                nodejs(nodeJSInstallationName: 'NodeJS 14.17.1') {
                     sh """
                         ## cd into correct directory, and nest build lambda code
                         npm run rest-api:build
@@ -121,7 +121,7 @@ pipeline {
                 }
             }
             steps {
-                nodejs(nodeJSInstallationName: 'NodeJS 16.4') {
+                nodejs(nodeJSInstallationName: 'NodeJS 14.17.1') {
                     sh """
 
                         # Deployable Zip
